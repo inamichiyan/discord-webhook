@@ -19,4 +19,4 @@ jobs:
           # curlを使ってJSON形式でPOSTリクエストを送信
           curl -X POST "$TARGET_URL" \
             -H "Content-Type: application/json" \
-            -d "{\"text\": \"$POST_TEXT\"}"
+            -d "{\"content\": \"$POST_TEXT\"}"
