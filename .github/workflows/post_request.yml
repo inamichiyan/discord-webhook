@@ -18,6 +18,6 @@ jobs:
           # jq を使って安全にJSONを組み立ててPOSTする（エスケープミスが起きません）
           jq -n \
             --arg text "$POST_TEXT" \
-            '{text: $text}' | curl -X POST "$TARGET_URL" \
+            '{content: $text}' | curl -X POST "$TARGET_URL" \
               -H "Content-Type: application/json" \
               -d @-
