@@ -14,9 +14,10 @@ jobs:
           POST_TEXT: ${{ github.event.client_payload.text }}
         run: |
           echo "Sending POST request to: $TARGET_URL"
-          echo "Text to send: $POST_TEXT" # ← デバッグ用にテキストを出力してみる
           
-          # curlを使ってJSON形式でPOSTリクエストを送信
-          curl -X POST "$TARGET_URL" \
-            -H "Content-Type: application/json" \
-            -d "{\"content\": \"$POST_TEXT\"}"
+          # jq を使って安全にJSONを組み立ててPOSTする（エスケープミスが起きません）
+          jq -n \
+            --arg text "$POST_TEXT" \
+            '{text: $text}' | curl -X POST "$TARGET_URL" \
+              -H "Content-Type: application/json" \
+              -d @-
