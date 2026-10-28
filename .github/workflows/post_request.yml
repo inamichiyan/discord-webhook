@@ -1,0 +1,21 @@
+name: External POST Request
+
+on:
+  repository_dispatch:
+    types: [send-post-request]
+
+jobs:
+  post-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send POST Request
+        env:
+          TARGET_URL: ${{ github.event.client_payload.url }}
+          POST_TEXT: ${{ github.event.client_payload.text }}
+        run: |
+          echo "Sending POST request to: $TARGET_URL"
+          
+          # curlを使ってJSON形式でPOSTリクエストを送信
+          curl -X POST "$TARGET_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"text\": \"$POST_TEXT\"}"
